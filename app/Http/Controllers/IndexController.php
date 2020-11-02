@@ -260,7 +260,7 @@ class IndexController extends Controller
                         $team->draw++;
                     } else {
                         $points = 0;
-                        $team->lose;
+                        $team->lose++;
                     }
 
                     $team->points += $points;
