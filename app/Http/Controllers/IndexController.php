@@ -195,31 +195,11 @@ class IndexController extends Controller
         if($week > 0) {
             $schedule = Schedule::where('week_number', $week)->get();
             foreach ($schedule as $item) {
-                $this->playGame($item->game);
+                $item->game->play();
             }
         }
         return $week;
 
-    }
-
-
-    private function playGame(Game $game) {
-
-        if($game->finished != 1) {
-            $game->goals_home = $this->calcScore($game->teamHome->rate, $game->teamVisitor->rate);
-            $game->goals_visitor = $this->calcScore($game->teamVisitor->rate, $game->teamHome->rate);
-            $game->finished = 1;
-            $game->save();
-        }
-    }
-
-
-    private function calcScore(int $rate_home, int $rate_visitor) {
-        $score = round(mt_rand(-$rate_visitor * $rate_visitor / $rate_home, $rate_home) / 10);
-        if($score <= 0) {
-            $score = 0;
-        }
-        return $score;
     }
 
 
